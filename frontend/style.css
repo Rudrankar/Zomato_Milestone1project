@@ -1,0 +1,106 @@
+/* Custom Styles extending Tailwind CSS */
+
+.glass {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.dark .glass {
+    background: rgba(30, 30, 30, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(156, 163, 175, 0.5); /* tailwind gray-400 */
+    border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(107, 114, 128, 0.7); /* tailwind gray-500 */
+}
+
+/* Active cuisine chips */
+.cuisine-chip.active {
+    background-color: #b7122a !important; /* primary red */
+    color: white !important;
+    border-color: #b7122a !important;
+}
+
+/* Custom styles for Range slider */
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background: #b7122a; /* primary red */
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(183, 18, 42, 0.3);
+    margin-top: -6px; /* align center with track */
+}
+
+input[type=range]::-moz-range-thumb {
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background: #b7122a;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 0 10px rgba(183, 18, 42, 0.3);
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 8px;
+    cursor: pointer;
+    background: rgba(156, 163, 175, 0.3);
+    border-radius: 4px;
+}
+
+.dark input[type=range]::-webkit-slider-runnable-track {
+    background: rgba(63, 63, 70, 0.8); /* zinc-700 */
+}
+
+/* Pre-defined tags styling inside textarea */
+.pref-tag {
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.pref-tag:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Custom skeleton animation overlay */
+.shimmer-loader::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    transform: translateX(-100%);
+    background-image: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.1) 20%,
+        rgba(255, 255, 255, 0.3) 60%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    animation: shimmer 1.5s infinite;
+    content: '';
+}
+
+@keyframes shimmer {
+    100% {
+        transform: translateX(100%);
+    }
+}

@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+env/
+
+# Environment variables / Secrets
+.env
+.env.local
+.env.*.local
+
+# Large datasets and databases
+data/zomato.csv
+data/zomato.db
+
+# IDEs
+.vscode/
+.idea/
+.DS_Store

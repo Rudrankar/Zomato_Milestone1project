@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Zomato AI - Premium Dining Discovery</title>
+    <meta name="description" content="Find the perfect dining spots with personalized AI recommendations based on your cuisine, budget, rating, and special wishes.">
+    
+    <!-- Tailwind CSS with forms and container-queries -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    
+    <!-- Custom stylesheet for custom range/scrollbar styling -->
+    <link rel="stylesheet" href="style.css">
+
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-variant": "#e2e2e2",
+                        "on-tertiary-container": "#f3fffd",
+                        "tertiary-fixed-dim": "#71d7cf",
+                        "secondary": "#835500",
+                        "on-background": "#1a1c1c",
+                        "secondary-fixed": "#ffddb4",
+                        "on-secondary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "primary-fixed-dim": "#ffb3b1",
+                        "secondary-fixed-dim": "#ffb955",
+                        "on-error-container": "#93000a",
+                        "on-surface": "#1a1c1c",
+                        "on-secondary-fixed": "#291800",
+                        "outline": "#8f6f6e",
+                        "background": "#f9f9f9",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed-variant": "#633f00",
+                        "on-surface-variant": "#5b403f",
+                        "error-container": "#ffdad6",
+                        "error": "#ba1a1a",
+                        "tertiary-container": "#00837c",
+                        "surface-container-high": "#e8e8e8",
+                        "surface": "#f9f9f9",
+                        "on-secondary-container": "#6b4500",
+                        "surface-tint": "#bb162c",
+                        "inverse-surface": "#2f3131",
+                        "outline-variant": "#e4bebc",
+                        "on-primary-fixed-variant": "#92001c",
+                        "on-primary": "#ffffff",
+                        "primary": "#b7122a",
+                        "surface-container-highest": "#e2e2e2",
+                        "surface-container-low": "#f3f3f3",
+                        "surface-bright": "#f9f9f9",
+                        "secondary-container": "#feae2c",
+                        "surface-dim": "#dadada",
+                        "primary-container": "#db313f",
+                        "primary-fixed": "#ffdad8",
+                        "on-tertiary-fixed": "#00201e",
+                        "on-primary-fixed": "#410007",
+                        "on-primary-container": "#fffbff",
+                        "tertiary": "#006762",
+                        "inverse-primary": "#ffb3b1",
+                        "tertiary-fixed": "#8ef4eb",
+                        "surface-container": "#eeeeee",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-on-surface": "#f1f1f1",
+                        "on-tertiary-fixed-variant": "#00504c"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "12px",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "stack-lg": "24px",
+                        "stack-sm": "8px",
+                        "container-padding-desktop": "32px",
+                        "stack-md": "16px",
+                        "container-padding-mobile": "16px",
+                        "gutter": "20px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-lg": ["Outfit"],
+                        "headline-md": ["Outfit"],
+                        "headline-lg-mobile": ["Outfit"],
+                        "body-md": ["Inter"],
+                        "display-lg": ["Outfit"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface dark:bg-zinc-950 dark:text-zinc-100 font-body-md min-h-screen flex flex-col transition-colors duration-300">
+    <!-- TopNavBar -->
+    <nav class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-container-padding-desktop bg-surface/60 dark:bg-zinc-900/60 backdrop-blur-md h-20 border-b border-outline-variant/30 dark:border-zinc-800 shadow-sm">
+        <div class="flex items-center gap-4">
+            <span class="font-headline-lg text-headline-lg tracking-tight flex items-center gap-1 select-none">
+                <span class="text-zinc-900 dark:text-white">zomato</span><span class="text-primary font-extrabold">AI</span>
+            </span>
+            <!-- Health Badge -->
+            <div id="health-badge" class="health-badge status-loading flex items-center gap-2 px-3 py-1 rounded-full bg-surface-container-low dark:bg-zinc-800 border border-outline-variant/20 dark:border-zinc-700 text-xs">
+                <span class="indicator-dot h-2 w-2 rounded-full bg-zinc-400"></span>
+                <span id="health-text" class="font-medium text-on-surface-variant dark:text-zinc-400">Checking Status...</span>
+            </div>
+        </div>
+        <div class="flex items-center gap-stack-md">
+            <!-- Dark Mode Toggle -->
+            <button class="p-2 rounded-full hover:bg-surface-variant dark:hover:bg-zinc-800 transition-colors" onclick="document.documentElement.classList.toggle('dark')">
+                <span class="material-symbols-outlined text-on-surface-variant dark:text-zinc-300">dark_mode</span>
+            </button>
+            <div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-container-low dark:bg-zinc-800 border border-outline-variant/20 dark:border-zinc-700 cursor-pointer hover:bg-surface-container dark:hover:bg-zinc-700 transition-colors">
+                <span class="material-symbols-outlined text-on-surface-variant dark:text-zinc-300" style="font-variation-settings: 'FILL' 1;">account_circle</span>
+                <span class="font-label-md text-label-md text-on-surface dark:text-zinc-200">Alex Rivera</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 mt-20 flex flex-col md:flex-row h-[calc(100vh-80px)] overflow-hidden">
+        <!-- Left Panel: Filters/Input -->
+        <aside class="w-full md:w-[400px] bg-surface-container-lowest dark:bg-zinc-900 border-r border-outline-variant/30 dark:border-zinc-800 flex flex-col overflow-y-auto custom-scrollbar p-stack-lg">
+            <form id="recommender-form" class="space-y-stack-lg" autocomplete="off">
+                <div>
+                    <h2 class="font-headline-md text-headline-md mb-2 text-zinc-900 dark:text-white">Discovery Filters</h2>
+                    <p class="text-on-surface-variant dark:text-zinc-400 font-label-sm text-label-sm">Tell AI what you're craving today.</p>
+                </div>
+                
+                <!-- Location Select Dropdown -->
+                <div class="space-y-stack-sm">
+                    <label for="location-input" class="font-label-md text-label-md text-on-surface-variant dark:text-zinc-350">Location</label>
+                    <div class="relative">
+                        <select id="location-input" required class="w-full p-stack-md bg-white dark:bg-zinc-800 border border-outline-variant dark:border-zinc-700 rounded-xl focus:border-primary focus:ring-1 focus:ring-primary outline-none appearance-none font-body-md text-zinc-900 dark:text-zinc-100">
+                            <option value="">Select Location</option>
+                        </select>
+                        <span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant dark:text-zinc-400">keyboard_arrow_down</span>
+                    </div>
+                </div>
+
+                <!-- Cuisine Selector -->
+                <div class="space-y-stack-sm">
+                    <label class="font-label-md text-label-md text-on-surface-variant dark:text-zinc-350">Cuisines</label>
+                    <div id="cuisines-container" class="flex flex-wrap gap-2">
+                        <!-- Dynamic Cuisines will be loaded here -->
+                        <span class="text-xs text-on-surface-variant dark:text-zinc-400 animate-pulse">Loading cuisines...</span>
+                    </div>
+                </div>
+
+                <!-- Budget Tiers -->
+                <div class="space-y-stack-sm">
+                    <label class="font-label-md text-label-md text-on-surface-variant dark:text-zinc-350">Budget Range</label>
+                    <div class="grid grid-cols-3 gap-2">
+                        <label class="budget-option cursor-pointer">
+                            <input type="radio" name="budget" value="Low" class="peer hidden">
+                            <div class="flex flex-col items-center justify-center p-4 border border-outline-variant dark:border-zinc-700 rounded-xl hover:border-primary dark:hover:border-primary transition-all peer-checked:ring-2 peer-checked:ring-primary peer-checked:bg-primary/5 peer-checked:border-primary text-center">
+                                <span class="text-xl font-bold text-on-surface dark:text-white">$</span>
+                                <span class="text-label-sm font-label-sm text-on-surface-variant dark:text-zinc-400">Budget</span>
+                            </div>
+                        </label>
+                        <label class="budget-option cursor-pointer">
+                            <input type="radio" name="budget" value="Medium" class="peer hidden" checked>
+                            <div class="flex flex-col items-center justify-center p-4 border border-outline-variant dark:border-zinc-700 rounded-xl hover:border-primary dark:hover:border-primary transition-all peer-checked:ring-2 peer-checked:ring-primary peer-checked:bg-primary/5 peer-checked:border-primary text-center">
+                                <span class="text-xl font-bold text-on-surface dark:text-white">$$</span>
+                                <span class="text-label-sm font-label-sm text-on-surface-variant dark:text-zinc-400">Moderate</span>
+                            </div>
+                        </label>
+                        <label class="budget-option cursor-pointer">
+                            <input type="radio" name="budget" value="High" class="peer hidden">
+                            <div class="flex flex-col items-center justify-center p-4 border border-outline-variant dark:border-zinc-700 rounded-xl hover:border-primary dark:hover:border-primary transition-all peer-checked:ring-2 peer-checked:ring-primary peer-checked:bg-primary/5 peer-checked:border-primary text-center">
+                                <span class="text-xl font-bold text-on-surface dark:text-white">$$$</span>
+                                <span class="text-label-sm font-label-sm text-on-surface-variant dark:text-zinc-400">Premium</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Rating Slider -->
+                <div class="space-y-stack-sm">
+                    <div class="flex justify-between items-center">
+                        <label for="rating-slider" class="font-label-md text-label-md text-on-surface-variant dark:text-zinc-350">Minimum Rating</label>
+                        <div class="flex items-center gap-1 text-secondary dark:text-amber-500 font-bold">
+                            <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                            <span id="rating-value">3.5</span>
+                        </div>
+                    </div>
+                    <input id="rating-slider" class="w-full h-1.5 bg-surface-variant dark:bg-zinc-700 rounded-lg appearance-none cursor-pointer" max="5.0" min="1.0" step="0.1" type="range" value="3.5"/>
+                </div>
+
+                <!-- Custom Preferences -->
+                <div class="space-y-stack-sm">
+                    <label for="additional-input" class="font-label-md text-label-md text-on-surface-variant dark:text-zinc-350">Specific Wishes</label>
+                    <textarea id="additional-input" class="w-full p-stack-md bg-white dark:bg-zinc-800 border border-outline-variant dark:border-zinc-700 rounded-xl focus:border-primary focus:ring-1 focus:ring-primary outline-none font-body-md h-24 resize-none text-zinc-900 dark:text-zinc-100" placeholder="e.g. Quiet place for a date, outdoor seating preferred..."></textarea>
+                    <div class="flex flex-wrap gap-2 mt-2">
+                        <button type="button" class="pref-tag px-3 py-1 bg-white dark:bg-zinc-800 border border-outline-variant/50 dark:border-zinc-700 rounded-full text-label-sm font-label-sm flex items-center gap-1 text-zinc-700 dark:text-zinc-300 hover:border-primary transition-all">
+                            <span class="material-symbols-outlined text-[14px]">deck</span> Rooftop
+                        </button>
+                        <button type="button" class="pref-tag px-3 py-1 bg-white dark:bg-zinc-800 border border-outline-variant/50 dark:border-zinc-700 rounded-full text-label-sm font-label-sm flex items-center gap-1 text-zinc-700 dark:text-zinc-300 hover:border-primary transition-all">
+                            <span class="material-symbols-outlined text-[14px]">child_care</span> Kid Friendly
+                        </button>
+                        <button type="button" class="pref-tag px-3 py-1 bg-white dark:bg-zinc-800 border border-outline-variant/50 dark:border-zinc-700 rounded-full text-label-sm font-label-sm flex items-center gap-1 text-zinc-700 dark:text-zinc-300 hover:border-primary transition-all">
+                            <span class="material-symbols-outlined text-[14px]">eco</span> Vegan Options
+                        </button>
+                    </div>
+                </div>
+
+                <!-- CTA Submit Button -->
+                <button type="submit" id="submit-btn" class="w-full bg-primary text-white py-4 rounded-xl font-headline-md flex items-center justify-center gap-2 hover:bg-primary-container transition-all active:scale-[0.98] shadow-lg shadow-primary/20">
+                    <span class="material-symbols-outlined btn-icon">auto_awesome</span>
+                    <span class="btn-text">Generate AI Recommendations</span>
+                    <div class="btn-loader w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" style="display:none;"></div>
+                </button>
+            </form>
+        </aside>
+
+        <!-- Right Area: Results Dashboard -->
+        <section class="flex-1 bg-surface-container-low dark:bg-zinc-950 overflow-y-auto custom-scrollbar p-stack-lg">
+            <div class="max-w-6xl mx-auto space-y-stack-lg">
+                <!-- Welcome/Initial State -->
+                <div id="results-welcome" class="flex flex-col items-center justify-center text-center p-8 bg-white dark:bg-zinc-900 rounded-2xl border border-outline-variant/30 dark:border-zinc-800 min-h-[480px] shadow-sm">
+                    <div class="text-primary mb-6 animate-pulse">
+                        <span class="material-symbols-outlined text-6xl" style="font-variation-settings: 'FILL' 1;">explore</span>
+                    </div>
+                    <h2 class="font-headline-md text-headline-md mb-2 text-zinc-900 dark:text-white">Ready to Explore?</h2>
+                    <p class="text-on-surface-variant dark:text-zinc-400 max-w-md font-body-md leading-relaxed">
+                        Select your location and taste preferences on the left. Zomato AI will query real-world restaurant databases and reason using advanced LLMs to find your perfect matches.
+                    </p>
+                    <div class="text-left bg-surface dark:bg-zinc-800/50 border border-outline-variant/50 dark:border-zinc-700 rounded-xl p-4 max-w-md w-full mt-4">
+                        <h3 class="font-label-md text-label-md text-amber-600 dark:text-amber-500 mb-2 flex items-center gap-1">
+                            <span class="material-symbols-outlined text-sm">lightbulb</span> Pro Tips:
+                        </h3>
+                        <ul class="text-xs text-on-surface-variant dark:text-zinc-400 space-y-1 list-disc pl-4">
+                            <li>Select multiple cuisines to find Fusion restaurants.</li>
+                            <li>Write specific atmospheres in "Specific Wishes" like <em>"outdoor tables"</em> or <em>"live music"</em>.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Loading State (Skeleton Cards) -->
+                <div id="results-loading" class="flex flex-col items-center justify-center text-center p-8 bg-white dark:bg-zinc-900 rounded-2xl border border-outline-variant/30 dark:border-zinc-800 min-h-[480px] shadow-sm" style="display:none;">
+                    <div class="animate-spin rounded-full h-12 w-12 border-4 border-primary border-t-transparent mb-4"></div>
+                    <h2 class="font-headline-md text-headline-md mb-2 text-zinc-900 dark:text-white">Consulting Zomato Guide AI...</h2>
+                    <p class="text-on-surface-variant dark:text-zinc-400 max-w-md mb-6">Filtering database candidates and drafting personalized explanations.</p>
+                    
+                    <!-- Shimmer skeletons -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-stack-lg w-full mt-4">
+                        <div class="bg-surface dark:bg-zinc-850 rounded-xl p-4 space-y-4 border border-outline-variant/30 dark:border-zinc-800 relative overflow-hidden">
+                            <div class="h-40 bg-zinc-200 dark:bg-zinc-800 rounded-lg animate-pulse"></div>
+                            <div class="h-6 w-2/3 bg-zinc-200 dark:bg-zinc-800 rounded animate-pulse"></div>
+                            <div class="h-4 w-1/3 bg-zinc-200 dark:bg-zinc-800 rounded animate-pulse"></div>
+                            <div class="h-16 bg-zinc-200 dark:bg-zinc-800 rounded animate-pulse"></div>
+                        </div>
+                        <div class="bg-surface dark:bg-zinc-850 rounded-xl p-4 space-y-4 border border-outline-variant/30 dark:border-zinc-800 relative overflow-hidden hidden lg:block">
+                            <div class="h-40 bg-zinc-200 dark:bg-zinc-800 rounded-lg animate-pulse"></div>
+                            <div class="h-6 w-2/3 bg-zinc-200 dark:bg-zinc-800 rounded animate-pulse"></div>
+                            <div class="h-4 w-1/3 bg-zinc-200 dark:bg-zinc-800 rounded animate-pulse"></div>
+                            <div class="h-16 bg-zinc-200 dark:bg-zinc-800 rounded animate-pulse"></div>
+                        </div>
+                        <div class="bg-surface dark:bg-zinc-850 rounded-xl p-4 space-y-4 border border-outline-variant/30 dark:border-zinc-800 relative overflow-hidden hidden xl:block">
+                            <div class="h-40 bg-zinc-200 dark:bg-zinc-800 rounded-lg animate-pulse"></div>
+                            <div class="h-6 w-2/3 bg-zinc-200 dark:bg-zinc-800 rounded animate-pulse"></div>
+                            <div class="h-4 w-1/3 bg-zinc-200 dark:bg-zinc-800 rounded animate-pulse"></div>
+                            <div class="h-16 bg-zinc-200 dark:bg-zinc-800 rounded animate-pulse"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Empty State (No Candidates Found) -->
+                <div id="results-empty" class="flex flex-col items-center justify-center text-center p-8 bg-white dark:bg-zinc-900 rounded-2xl border border-outline-variant/30 dark:border-zinc-800 min-h-[480px] shadow-sm" style="display:none;">
+                    <span class="material-symbols-outlined text-6xl text-zinc-400 dark:text-zinc-500 mb-4">search_off</span>
+                    <h2 class="font-headline-md text-headline-md mb-2 text-zinc-900 dark:text-white">No Matching Restaurants</h2>
+                    <p id="empty-message" class="text-on-surface-variant dark:text-zinc-400 max-w-md">We couldn't find any direct matches in our database for those exact filters. Try broadening your criteria!</p>
+                    <button type="button" id="reset-filters-btn" class="mt-6 px-6 py-2.5 bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-800 dark:text-zinc-200 font-label-md rounded-xl transition-all">
+                        Reset Filters
+                    </button>
+                </div>
+
+                <!-- Error / API Missing State -->
+                <div id="results-error" class="flex flex-col items-center justify-center text-center p-8 bg-white dark:bg-zinc-900 rounded-2xl border border-outline-variant/30 dark:border-zinc-800 min-h-[480px] shadow-sm" style="display:none;">
+                    <span class="material-symbols-outlined text-6xl text-error mb-4">warning</span>
+                    <h2 class="font-headline-md text-headline-md mb-2 text-zinc-900 dark:text-white">System Notice</h2>
+                    <p id="error-message" class="text-on-surface-variant dark:text-zinc-400 max-w-md">Unable to contact the AI engine. Please verify the server setup and keys.</p>
+                    <div class="flex gap-4 mt-6">
+                        <button type="button" id="retry-btn" class="px-6 py-2.5 bg-primary hover:bg-primary-container text-white font-label-md rounded-xl transition-all flex items-center gap-1 shadow-md">
+                            <span class="material-symbols-outlined text-sm">refresh</span> Try Again
+                        </button>
+                        <button type="button" id="force-mock-btn" class="px-6 py-2.5 bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-800 dark:text-zinc-200 font-label-md rounded-xl transition-all">
+                            Run with Mock AI (Offline)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Main Recommendations List Output -->
+                <div id="recommendations-container" style="display:none;" class="space-y-stack-lg">
+                    <div class="flex justify-between items-end border-b border-outline-variant/20 dark:border-zinc-800 pb-4">
+                        <div>
+                            <h1 class="font-headline-lg text-headline-lg text-zinc-900 dark:text-white">Top Recommendations</h1>
+                            <p class="text-on-surface-variant dark:text-zinc-400 font-body-md">Curated by Zomato AI based on your preferences</p>
+                        </div>
+                        <span id="results-count" class="px-3 py-1 bg-primary text-white text-label-sm font-bold rounded-full">3 Options Ranked</span>
+                    </div>
+                    <div id="recommendations-list" class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-stack-lg">
+                        <!-- Recommendation Cards are dynamically injected here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white dark:bg-zinc-950 border-t border-outline-variant/20 dark:border-zinc-900 py-4 text-center text-xs text-on-surface-variant dark:text-zinc-500 flex-none h-12 flex items-center justify-center">
+        <p>&copy; 2026 Zomato AI Recommender. Premium AI pair programming prototype.</p>
+    </footer>
+
+    <!-- App JavaScript Logic -->
+    <script src="app.js"></script>
+</body>
+</html>

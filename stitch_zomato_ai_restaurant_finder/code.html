@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Zomato AI - Premium Dining Discovery</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-variant": "#e2e2e2",
+                        "on-tertiary-container": "#f3fffd",
+                        "tertiary-fixed-dim": "#71d7cf",
+                        "secondary": "#835500",
+                        "on-background": "#1a1c1c",
+                        "secondary-fixed": "#ffddb4",
+                        "on-secondary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "primary-fixed-dim": "#ffb3b1",
+                        "secondary-fixed-dim": "#ffb955",
+                        "on-error-container": "#93000a",
+                        "on-surface": "#1a1c1c",
+                        "on-secondary-fixed": "#291800",
+                        "outline": "#8f6f6e",
+                        "background": "#f9f9f9",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed-variant": "#633f00",
+                        "on-surface-variant": "#5b403f",
+                        "error-container": "#ffdad6",
+                        "error": "#ba1a1a",
+                        "tertiary-container": "#00837c",
+                        "surface-container-high": "#e8e8e8",
+                        "surface": "#f9f9f9",
+                        "on-secondary-container": "#6b4500",
+                        "surface-tint": "#bb162c",
+                        "inverse-surface": "#2f3131",
+                        "outline-variant": "#e4bebc",
+                        "on-primary-fixed-variant": "#92001c",
+                        "on-primary": "#ffffff",
+                        "primary": "#b7122a",
+                        "surface-container-highest": "#e2e2e2",
+                        "surface-container-low": "#f3f3f3",
+                        "surface-bright": "#f9f9f9",
+                        "secondary-container": "#feae2c",
+                        "surface-dim": "#dadada",
+                        "primary-container": "#db313f",
+                        "primary-fixed": "#ffdad8",
+                        "on-tertiary-fixed": "#00201e",
+                        "on-primary-fixed": "#410007",
+                        "on-primary-container": "#fffbff",
+                        "tertiary": "#006762",
+                        "inverse-primary": "#ffb3b1",
+                        "tertiary-fixed": "#8ef4eb",
+                        "surface-container": "#eeeeee",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-on-surface": "#f1f1f1",
+                        "on-tertiary-fixed-variant": "#00504c"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "12px",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "stack-lg": "24px",
+                        "stack-sm": "8px",
+                        "container-padding-desktop": "32px",
+                        "stack-md": "16px",
+                        "container-padding-mobile": "16px",
+                        "gutter": "20px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-lg": ["Outfit"],
+                        "headline-md": ["Outfit"],
+                        "headline-lg-mobile": ["Outfit"],
+                        "body-md": ["Inter"],
+                        "display-lg": ["Outfit"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .glass {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .dark .glass {
+            background: rgba(30, 30, 30, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #E0E0E0;
+            border-radius: 10px;
+        }
+        .cuisine-chip.active {
+            background-color: #E23744 !important;
+            color: white !important;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: #E23744;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(226, 55, 68, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<nav class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-container-padding-desktop bg-surface/60 backdrop-blur-md h-20 border-b border-outline-variant/30 shadow-sm">
+<div class="flex items-center gap-4">
+<img alt="Zomato AI Logo" class="h-10 w-auto" src="data:image/png;base64,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"/>
+</div>
+<div class="flex items-center gap-stack-md">
+<!-- Dark Mode Toggle -->
+<button class="p-2 rounded-full hover:bg-surface-variant transition-colors" onclick="document.documentElement.classList.toggle('dark')">
+<span class="material-symbols-outlined text-on-surface-variant">dark_mode</span>
+</button>
+<div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-container-low border border-outline-variant/20 cursor-pointer hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant" style="font-variation-settings: 'FILL' 1;">account_circle</span>
+<span class="font-label-md text-label-md">Alex Rivera</span>
+</div>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 mt-20 flex flex-col md:flex-row h-[calc(100vh-80px)] overflow-hidden">
+<!-- Left Panel: Filters/Input -->
+<aside class="w-full md:w-[400px] bg-surface-container-lowest border-r border-outline-variant/30 flex flex-col overflow-y-auto custom-scrollbar p-stack-lg">
+<div class="space-y-stack-lg">
+<div>
+<h2 class="font-headline-md text-headline-md mb-2">Discovery Filters</h2>
+<p class="text-on-surface-variant font-label-sm text-label-sm">Tell AI what you're craving today.</p>
+</div>
+<!-- Location -->
+<div class="space-y-stack-sm">
+<label class="font-label-md text-label-md text-on-surface-variant">Location</label>
+<div class="relative">
+<select class="w-full p-stack-md bg-white border border-outline-variant rounded-xl focus:border-primary outline-none appearance-none font-body-md">
+<option>Delhi, NCR</option>
+<option>Bangalore, KA</option>
+<option>Mumbai, MH</option>
+<option>Hyderabad, TS</option>
+</select>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant">keyboard_arrow_down</span>
+</div>
+</div>
+<!-- Cuisine Selector -->
+<div class="space-y-stack-sm">
+<label class="font-label-md text-label-md text-on-surface-variant">Cuisines</label>
+<div class="flex flex-wrap gap-2">
+<button class="cuisine-chip px-4 py-2 bg-surface-container rounded-full text-label-sm font-label-sm transition-all active" onclick="this.classList.toggle('active')">Italian</button>
+<button class="cuisine-chip px-4 py-2 bg-surface-container rounded-full text-label-sm font-label-sm transition-all" onclick="this.classList.toggle('active')">Chinese</button>
+<button class="cuisine-chip px-4 py-2 bg-surface-container rounded-full text-label-sm font-label-sm transition-all" onclick="this.classList.toggle('active')">North Indian</button>
+<button class="cuisine-chip px-4 py-2 bg-surface-container rounded-full text-label-sm font-label-sm transition-all active" onclick="this.classList.toggle('active')">Japanese</button>
+<button class="cuisine-chip px-4 py-2 bg-surface-container rounded-full text-label-sm font-label-sm transition-all" onclick="this.classList.toggle('active')">Mexican</button>
+</div>
+</div>
+<!-- Budget Tiers -->
+<div class="space-y-stack-sm">
+<label class="font-label-md text-label-md text-on-surface-variant">Budget</label>
+<div class="grid grid-cols-3 gap-2">
+<button class="flex flex-col items-center justify-center p-4 border border-outline-variant rounded-xl hover:border-primary transition-all group active ring-2 ring-primary bg-primary/5">
+<span class="text-headline-sm font-bold text-primary">$</span>
+<span class="text-label-sm font-label-sm">Budget</span>
+</button>
+<button class="flex flex-col items-center justify-center p-4 border border-outline-variant rounded-xl hover:border-primary transition-all group">
+<span class="text-headline-sm font-bold text-on-surface-variant group-hover:text-primary">$$</span>
+<span class="text-label-sm font-label-sm">Moderate</span>
+</button>
+<button class="flex flex-col items-center justify-center p-4 border border-outline-variant rounded-xl hover:border-primary transition-all group">
+<span class="text-headline-sm font-bold text-on-surface-variant group-hover:text-primary">$$$</span>
+<span class="text-label-sm font-label-sm">Premium</span>
+</button>
+</div>
+</div>
+<!-- Rating Slider -->
+<div class="space-y-stack-sm">
+<div class="flex justify-between items-center">
+<label class="font-label-md text-label-md text-on-surface-variant">Minimum Rating</label>
+<div class="flex items-center gap-1 text-secondary font-bold">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span id="rating-val">3.5</span>
+</div>
+</div>
+<input class="w-full h-1.5 bg-surface-variant rounded-lg appearance-none cursor-pointer" max="5.0" min="1.0" oninput="document.getElementById('rating-val').innerText = this.value" step="0.1" type="range" value="3.5"/>
+</div>
+<!-- Custom Preferences -->
+<div class="space-y-stack-sm">
+<label class="font-label-md text-label-md text-on-surface-variant">Specific Preferences</label>
+<textarea class="w-full p-stack-md bg-white border border-outline-variant rounded-xl focus:border-primary outline-none font-body-md h-24 resize-none" placeholder="e.g. Quiet place for a date, outdoor seating preferred..."></textarea>
+<div class="flex flex-wrap gap-2 mt-2">
+<span class="px-3 py-1 bg-white border border-outline-variant/50 rounded-full text-label-sm font-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">deck</span> Rooftop
+                        </span>
+<span class="px-3 py-1 bg-white border border-outline-variant/50 rounded-full text-label-sm font-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">child_care</span> Kid Friendly
+                        </span>
+<span class="px-3 py-1 bg-white border border-outline-variant/50 rounded-full text-label-sm font-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">eco</span> Vegan Options
+                        </span>
+</div>
+</div>
+<!-- CTA -->
+<button class="w-full bg-primary text-white py-4 rounded-xl font-headline-md flex items-center justify-center gap-2 hover:bg-primary-container transition-all active:scale-[0.98] shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined">auto_awesome</span>
+                    Generate AI Recommendations
+                </button>
+</div>
+</aside>
+<!-- Right Area: Results -->
+<section class="flex-1 bg-surface-container-low overflow-y-auto custom-scrollbar p-stack-lg">
+<div class="max-w-6xl mx-auto space-y-stack-lg">
+<div class="flex justify-between items-end">
+<div>
+<h1 class="font-headline-lg text-headline-lg">Top Recommendations</h1>
+<p class="text-on-surface-variant font-body-md">Curated by Zomato AI based on your preferences</p>
+</div>
+<div class="flex gap-2">
+<button class="p-2 rounded-lg bg-white border border-outline-variant/30 hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined">grid_view</span>
+</button>
+<button class="p-2 rounded-lg bg-white border border-outline-variant/30 hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined">sort</span>
+</button>
+</div>
+</div>
+<!-- Results Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-stack-lg">
+<!-- Card 1 -->
+<article class="bg-white rounded-xl overflow-hidden shadow-md flex flex-col hover:shadow-xl transition-all duration-300 group">
+<div class="relative h-56">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A high-resolution, appetizing close-up of a premium Italian pasta dish with fresh basil and tomatoes in an elegant restaurant setting. Soft golden lighting emphasizes the texture of the food. The background shows a blurry, sophisticated restaurant interior with warm ambient lighting and sleek modern furniture, aligning with the premium Zomato AI brand aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBGXCQp5MYUH-u8nVZ_9VkY2UgnpnkffuSzkQoECAdKgXRb380JXIO4L3hVK-QcnzWsoGstVFaoenufxv79dMecLtrN_X8q-ggfQk5iA4CPC6NBNwoSh7moK8Ci31-Tn5CTGsCX7bGdpj8J0cDgPznEfq8qNHXtr9l-zm0G03Bfji8xy60tiMtJ6DiJLY2Wjgzxo3-t5qhNtGCCbkISshXABriZ9GAzPkI5xu5WwicoOI_wBI7W3gJe8NnSjBU5AaGU0VHI00tU4g8"/>
+<div class="absolute top-4 left-4 bg-primary text-white px-3 py-1 rounded-full text-label-sm font-bold shadow-lg">
+                                Top Match
+                            </div>
+</div>
+<div class="p-stack-md flex-1 flex flex-col">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-md text-headline-md text-on-surface">Trattoria Roma</h3>
+<div class="flex items-center gap-1 px-2 py-0.5 bg-secondary-fixed text-on-secondary-fixed rounded-lg">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-bold text-label-md">4.8</span>
+</div>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant text-label-md mb-4">
+<span>$$ • Italian</span>
+<span>•</span>
+<span>Indiranagar, Bangalore</span>
+</div>
+<!-- AI Rationale -->
+<div class="bg-primary/5 border border-primary/10 p-4 rounded-xl mb-4 flex gap-3">
+<span class="material-symbols-outlined text-primary text-[20px]">auto_awesome</span>
+<p class="text-label-sm font-label-sm text-on-surface-variant leading-relaxed">
+                                    Matches your <span class="font-bold text-primary">budget</span> and <span class="font-bold text-primary">location</span>. Recommended because it features a stunning rooftop garden and authentic handmade pasta you'll love.
+                                </p>
+</div>
+<button class="mt-auto w-full py-2.5 border border-primary text-primary font-label-md rounded-xl hover:bg-primary hover:text-white transition-colors">
+                                View Details
+                            </button>
+</div>
+</article>
+<!-- Card 2 -->
+<article class="bg-white rounded-xl overflow-hidden shadow-md flex flex-col hover:shadow-xl transition-all duration-300 group">
+<div class="relative h-56">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A vibrant, cinematic shot of high-end Japanese sushi being prepared by a chef. The setting is a minimalist, dimly lit izakaya with dark wood accents and soft neon highlights. The image is crisp, clean, and exudes a modern luxury feel, with a focus on fresh ingredients and artistic presentation that fits the Zomato AI professional concierge style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuClQeEXxfPhFM8csn8JuhiYFBul1SPBrZMBjHkBG6AcrulnuoBTov4be45qapXDT0RkkWEfVgNHagu5vjtHLkkuCheqnETfs8q9IfSrCa0d2UAARa6wHVLHH9GsgHiol80sOzwiC0uuLhoATlbhY_zH4gt5UUwsQpGT5L1UUPzeoli6890cNP5jfRL8ev5mfDsjOKGQ-CofhaP_Im2r8m0ipQxg_s_GTHKZ-wRTMuMr9q7PNniND9L-FiPydyewMX24BFGKOIjDkRE"/>
+<div class="absolute top-4 left-4 bg-primary text-white px-3 py-1 rounded-full text-label-sm font-bold shadow-lg">
+                                AI Choice
+                            </div>
+</div>
+<div class="p-stack-md flex-1 flex flex-col">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-md text-headline-md text-on-surface">Shokugeki Sushi</h3>
+<div class="flex items-center gap-1 px-2 py-0.5 bg-secondary-fixed text-on-secondary-fixed rounded-lg">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-bold text-label-md">4.6</span>
+</div>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant text-label-md mb-4">
+<span>$$ • Japanese</span>
+<span>•</span>
+<span>Koramangala, Bangalore</span>
+</div>
+<div class="bg-primary/5 border border-primary/10 p-4 rounded-xl mb-4 flex gap-3">
+<span class="material-symbols-outlined text-primary text-[20px]">auto_awesome</span>
+<p class="text-label-sm font-label-sm text-on-surface-variant leading-relaxed">
+                                    Highly rated for <span class="font-bold text-primary">Kid Friendly</span> amenities. Their specialized sushi platters are a top trend in your current location right now.
+                                </p>
+</div>
+<button class="mt-auto w-full py-2.5 border border-primary text-primary font-label-md rounded-xl hover:bg-primary hover:text-white transition-colors">
+                                View Details
+                            </button>
+</div>
+</article>
+<!-- Card 3 -->
+<article class="bg-white rounded-xl overflow-hidden shadow-md flex flex-col hover:shadow-xl transition-all duration-300 group">
+<div class="relative h-56">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A gourmet contemporary Indian fusion dish presented on a dark slate plate. The atmosphere is sophisticated and high-end, featuring metallic accents, soft candlelight, and a clean white table setting. The mood is intimate and professional, emphasizing culinary excellence and modern design, reflecting the upscale nature of the Zomato AI discovery platform." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBuUvk1ccE2kQQqRrr3RX8pimWDDeFTk7QtuUiP_BkIyHz2UlPyT1QOSeSRTV5W4nZLSYXtQhHuizFaj1HkvVPW2Y5SQm00Sj9D7I4UUONVdskn65tsrt03hZ-XyLogi4n6Tu7kqEfP7XEPfUjBzplKrR3xkGoo8teWVt-SnY0fgcxzv9V-KAjmHsju3FU9wM2Sppshj5c6boXTctK5jufYmOzA526nr7skYNBoZjTVosIwCqB2t88v-ubrZXENdkDrPz7IqajlSM4"/>
+<div class="absolute top-4 left-4 bg-primary text-white px-3 py-1 rounded-full text-label-sm font-bold shadow-lg">
+                                Trending
+                            </div>
+</div>
+<div class="p-stack-md flex-1 flex flex-col">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-md text-headline-md text-on-surface">The Spice Route</h3>
+<div class="flex items-center gap-1 px-2 py-0.5 bg-secondary-fixed text-on-secondary-fixed rounded-lg">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-bold text-label-md">4.9</span>
+</div>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant text-label-md mb-4">
+<span>$$$ • Fusion</span>
+<span>•</span>
+<span>MG Road, Bangalore</span>
+</div>
+<div class="bg-primary/5 border border-primary/10 p-4 rounded-xl mb-4 flex gap-3">
+<span class="material-symbols-outlined text-primary text-[20px]">auto_awesome</span>
+<p class="text-label-sm font-label-sm text-on-surface-variant leading-relaxed">
+                                    Excellent for <span class="font-bold text-primary">Premium</span> dining. Features an award-winning chef and the "quiet atmosphere" you specifically requested.
+                                </p>
+</div>
+<button class="mt-auto w-full py-2.5 border border-primary text-primary font-label-md rounded-xl hover:bg-primary hover:text-white transition-colors">
+                                View Details
+                            </button>
+</div>
+</article>
+</div>
+</div>
+</section>
+</main>
+<script>
+        // Simple micro-interactions
+        document.querySelectorAll('.cuisine-chip').forEach(chip => {
+            chip.addEventListener('click', () => {
+                // Toggle is handled inline but we can add complex logic here
+            });
+        });
+
+        // Simulation for Budget Cards
+        const budgetCards = document.querySelectorAll('button[class*="grid-cols-3"] > button');
+        budgetCards.forEach(card => {
+            card.addEventListener('click', () => {
+                budgetCards.forEach(c => {
+                    c.classList.remove('ring-2', 'ring-primary', 'bg-primary/5');
+                    c.querySelector('span:first-child').classList.remove('text-primary');
+                    c.querySelector('span:first-child').classList.add('text-on-surface-variant');
+                });
+                card.classList.add('ring-2', 'ring-primary', 'bg-primary/5');
+                card.querySelector('span:first-child').classList.add('text-primary');
+                card.querySelector('span:first-child').classList.remove('text-on-surface-variant');
+            });
+        });
+    </script>
+</body></html>
