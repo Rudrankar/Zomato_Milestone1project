@@ -47,16 +47,13 @@ Ensure your GitHub repository has the following directory structure:
 3. Once the deployment initializes, click on the **Service** in the Railway canvas dashboard.
 
 ### Step 1.3: Configure Startup Command
-Because our project relies on a local SQLite database that is built by downloading and processing a dataset from Hugging Face on startup, we must run the ingestion script (`src/ingest.py`) before spinning up the web server.
+Our backend code dynamically checks for the presence of the SQLite database (`data/zomato.db`) on startup. If it is missing (as it will be on your first deployment), it automatically downloads and ingests the dataset. Therefore, the startup command is extremely simple:
 
-1. Go to the **Settings** tab of your Railway service.
-2. Under the **Deploy** section, find **Start Command**.
-3. Set the start command to:
+1. In Railway, if you use the provided `Procfile`, it will configure the start command automatically.
+2. Otherwise, if setting manually in the Railway **Settings** tab (under **Start Command**), set it to:
    ```bash
-   python src/ingest.py && uvicorn src.main:app --host 0.0.0.0 --port $PORT
+   uvicorn src.main:app --host 0.0.0.0 --port $PORT
    ```
-   > [!NOTE]
-   > Railway automatically injects the `$PORT` environment variable that FastAPI must bind to. Running `python src/ingest.py` downloads the Zomato CSV dataset (~10MB) and processes it into a local `data/zomato.db` in about 15-30 seconds.
 
 ### Step 1.4: Configure Environment Variables
 1. Go to the **Variables** tab of your Railway service.
@@ -152,5 +149,5 @@ Visit the backend's public health endpoint in your browser:
 | **Frontend fails to load data (Locations/Cuisines are empty)** | The `API_BASE` in `frontend/app.js` is still empty or pointing to the wrong domain. | Check the browser dev console (F12) network tab. Verify that the URL requested is `https://your-railway-domain.app/api/locations`. Update `API_BASE` and redeploy. |
 | **API calls block with "CORS Error"** | The FastAPI backend doesn't allow cross-origin requests. | Ensure `CORSMiddleware` in [src/main.py](file:///c:/Users/Rudrankar%20Raha/Documents/NextLeap%20-%20Product%20Management/Zomato%20Project/src/main.py) is properly configured with `allow_origins=["*"]`. |
 | **Health Check shows `"groq_configured": false`** | `GROQ_API_KEY` was not configured in Railway's variables, or has typos. | Re-check the Variables tab in Railway, paste the API key, and click deploy. |
-| **Railway deployment fails or crashes on startup** | The startup command is incorrect or Python packages are missing. | Verify your Railway start command is exactly: `python src/ingest.py && uvicorn src.main:app --host 0.0.0.0 --port $PORT`. Check Railway logs to see which package failed to import. |
+| **Railway deployment fails or crashes on startup** | The startup command is incorrect or Python packages are missing. | Verify your Railway start command is exactly: `uvicorn src.main:app --host 0.0.0.0 --port $PORT`. Check Railway logs to see which package failed to import. |
 | **Slow startup time on Railway** | Downloading the dataset on startup is taking too long. | This is expected on the first container boot, but subsequent restarts might download faster due to cache. For faster startup, you can pre-package the `data/zomato.db` in your git commit (though not recommended for massive files). |

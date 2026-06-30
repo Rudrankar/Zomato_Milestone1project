@@ -10,6 +10,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from src.database import get_candidate_restaurants, get_unique_locations, get_popular_cuisines
 from src.recommender import generate_recommendations
+from src.ingest import download_dataset, process_and_store
 
 app = FastAPI(
     title="Zomato AI Restaurant Recommender API",
@@ -25,6 +26,19 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+@app.on_event("startup")
+def startup_event():
+    db_path = os.path.join("data", "zomato.db")
+    if not os.path.exists(db_path):
+        print("SQLite database not found. Initializing auto-ingestion on startup...")
+        try:
+            download_dataset()
+            process_and_store()
+            print("Database ingestion completed successfully.")
+        except Exception as e:
+            print(f"Database ingestion failed: {e}")
+            # Do not re-raise to allow the server to start, but subsequent API queries will report health check failures.
 
 # Pydantic schema for recommendation request body
 class RecommendationRequest(BaseModel):
