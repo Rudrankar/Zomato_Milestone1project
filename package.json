@@ -1,0 +1,11 @@
+{
+  "name": "zomato-restaurant-recommender",
+  "version": "1.0.0",
+  "description": "Zomato AI Restaurant Recommender development configuration",
+  "scripts": {
+    "dev": "lite-server --baseDir=frontend"
+  },
+  "devDependencies": {
+    "lite-server": "^2.6.1"
+  }
+}

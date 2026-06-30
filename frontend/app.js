@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // API base URL configuration (dynamically fallback to Railway in production)
     const API_BASE = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
         ? ""
-        : "https://your-backend-railway-url.railway.app"; // Replace with your Railway deployment URL
+        : "https://web-production-385ed.up.railway.app";
 
     // DOM Elements
     const form = document.getElementById("recommender-form");
